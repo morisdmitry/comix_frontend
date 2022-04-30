@@ -2,7 +2,8 @@
 .work-window{
     width: 500px;
     height: 500px;
-    background-color: #fef;
+    background-color: #fff;
+    border: 1px solid #fff;
 }
 .work-settings{
     width: 300px;
