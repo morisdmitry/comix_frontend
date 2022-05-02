@@ -2,7 +2,7 @@ import React from "react";
 import './imgWindow.css'
 
 import { connect } from 'react-redux';
-import { saveCoordinates } from '../../redux/actions'
+import { saveCoordinates, saveCoordinate_axis_x, saveCoordinate_axis_y } from '../../redux/actions'
 
 class ImgWindow extends React.Component {
     
@@ -19,40 +19,44 @@ class ImgWindow extends React.Component {
 
 
       componentWillUpdate(nextProps, nextState) {
-        if(this.props.saveToStore === true){
+
+        if(this.props.SAVE_TO_STORE === true){
             this.props.onChangeSave()
           }
-        if(nextState.left <= 110){
+        if(nextProps.coordinates.axis_x <= 80){
             this.setState({contact: 'off'})
 
-            this.setState({left: nextState.left + 1})
+            this.props.onSaveCoordinate_axis_x(nextProps.coordinates.axis_x + 1)
         }
-        else if(nextState.left >= 580){
+        else if(nextProps.coordinates.axis_x >= 540){
             this.setState({contact: 'off'})
 
-            this.setState({left: nextState.left - 1})
+            this.props.onSaveCoordinate_axis_x(nextProps.coordinates.axis_x - 1)
         }
-        else if(nextState.top <= 150){
+        else if(nextProps.coordinates.axis_y <= 150){
             this.setState({contact: 'off'})
 
-            this.setState({top: nextState.top + 1})
+            this.props.onSaveCoordinate_axis_y(nextProps.coordinates.axis_y + 1)
         }
-        else if(nextState.top >= 615){
+        else if(nextProps.coordinates.axis_y >= 615){
             this.setState({contact: 'off'})
 
-            this.setState({top: nextState.top - 1})
+            this.props.onSaveCoordinate_axis_y(nextProps.coordinates.axis_y - 1)
         }
         
       }
     
-      moveAt(pageX, pageY) {
-        this.setState({left: pageX - 40 / 2})
-        this.setState({top: pageY - 40 / 2})
+
+      moveAtStore(pageX, pageY) {
+
+        this.props.onSaveCoordinate_axis_x(pageX - 40 / 2)
+        this.props.onSaveCoordinate_axis_y(pageY - 40 / 2)
+        
       }
     
       onMouseMove(event){
         if (this.state.contact === 'on'){
-          this.moveAt(event.pageX, event.pageY);
+          this.moveAtStore(event.pageX, event.pageY);
         }
       };
     
@@ -60,11 +64,11 @@ class ImgWindow extends React.Component {
       onMouseDown(event){
     
         if (this.state.contact === 'on'){
-          this.moveAt(event.pageX, event.pageY);
+          this.moveAtStore(event.pageX, event.pageY);
           this.setState({contact: 'off'})
         }
         if (this.state.contact === 'off'){
-          this.moveAt(event.pageX, event.pageY);
+          this.moveAtStore(event.pageX, event.pageY);
           this.setState({contact: 'on'})
         }
       
@@ -74,24 +78,21 @@ class ImgWindow extends React.Component {
 
     
     render() {
-        if(this.props.saveToStore){
-            let coordinates = {
-                axis_x: this.state.top,
-                axis_y: this.state.left,
-            }
-            this.props.onSaveCoordinates(coordinates)
-            this.props.onChangeSave()
-          }
         return (
             <div className='work-window'>
-                      <img 
-  id='ball' 
-  onMouseDown={(event)=>{this.onMouseDown(event)}}
-  onMouseMove={(event)=>{this.onMouseMove(event)}}
-  src={'https://js.cx/clipart/ball.svg'} 
-  style={{color: "#FF8C00", cursor: "pointer", position: "absolute", z_index: "100", left: `${this.state.left}px`, top: `${this.state.top}px`}}
-  
-  />
+              {/* <img 
+                id='ball' 
+                onMouseDown={(event)=>{this.onMouseDown(event)}}
+                onMouseMove={(event)=>{this.onMouseMove(event)}}
+                src={'https://js.cx/clipart/ball.svg'} 
+                style={{color: "#FF8C00", 
+                  cursor: "pointer", 
+                  position: "absolute", 
+                  z_index: "100", 
+                  left: `${this.props.coordinates.axis_x}px`, 
+                  top: `${this.props.coordinates.axis_y}px`
+                }}
+              /> */}
             </div>
         )
     }
@@ -102,14 +103,14 @@ class ImgWindow extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        saveToStore: state.createComixReducer.SAVE_TO_STORE,
         coordinates: state.createComixReducer.coordinates,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return{
-        onSaveCoordinates: (val) => dispatch(saveCoordinates(val)),
+        onSaveCoordinate_axis_x: (val) => dispatch(saveCoordinate_axis_x(val)),
+        onSaveCoordinate_axis_y: (val) => dispatch(saveCoordinate_axis_y(val)),
         
         onChangeSave: ()=>{
             const action = {type: 'DISALLOW_SAVING'}

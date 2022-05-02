@@ -16,7 +16,7 @@ class Elements extends React.Component {
     render() {
         return (
             <div className="str-field">
-                <ImgWindow saveToStore={this.props.SAVE_TO_STORE}/>
+                <ImgWindow/>
                 <ElementSettings/>
                 <button onClick={this.props.onChangeSave}>save data</button>
 
