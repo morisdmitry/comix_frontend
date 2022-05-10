@@ -1,0 +1,12 @@
+
+.comix-page {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.element-settings {
+    
+    overflow-y: scroll;
+}

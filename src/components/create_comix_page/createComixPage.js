@@ -1,29 +1,38 @@
 import React from "react";
-import Elements  from '../elements/elements';
+import ComixPage  from '../comix_page/comixPage';
 import Buttons  from '../buttons/buttons';
 import { connect } from 'react-redux';
 
-import { addNewUnit } from '../../redux/actions'
+import { addNewPage } from '../../redux/actions'
 class CreateComixPage extends React.Component {
     constructor(props) {
         super(props);
       }
 
-    hanldeAddNewUnit(){
-        // console.log('add new unit')
-        console.log('counter', this.props.counter)
-        this.props.onAddNewUnit()
-
-        console.log('add new store', this.props.unit)
-        console.log('counter', this.props.counter)
+    handleClick(e){
+        this.props.onAddNewPage()
     }
+
+
     render() {
+        console.log('state', this.props.viewState);
         return (
             <div>
-                
-                <Elements></Elements>
-                <Buttons></Buttons>
-                <button onClick={()=> this.hanldeAddNewUnit()}>add new unit</button>
+                {
+                    this.props.comixPages.map((page)=>{
+                        return(
+                            <ComixPage 
+                                pageId={page.pageId}
+                                pageElements={page.pageElements}
+                                borders={page.borders}
+                                top_test={page.top_test}
+                            ></ComixPage>
+                        )
+                    })
+                }
+                {/* <Elements></Elements> */}
+                <button onClick={(e)=>{this.handleClick(e)}}>add new page</button>
+                {/* <Buttons></Buttons> */}
             </div>
         )
     }
@@ -31,15 +40,14 @@ class CreateComixPage extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        unit: state.createComixReducer,
-
-        counter: state.createComixReducer.utils.counter,
+        viewState: state.createComixReducer,
+        comixPages: state.createComixReducer.comixPages,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return{
-        onAddNewUnit: () => dispatch(addNewUnit()),
+        onAddNewPage: () => dispatch(addNewPage()),
     }
 }
 

@@ -14,11 +14,20 @@ class Params extends React.Component {
 
 
     render() {
-        if(this.props.paramsType === 'text'){
-            return <ParamsFormText/>
+        if(this.props.elType === 'text'){
+            return <ParamsFormText
+                coordinates={this.props.coordinates}
+                pageId={this.props.pageId}
+                elId={this.props.elId}
+
+            />
         }
-        else if(this.props.paramsType === 'image'){
-            return <ParamsFormImage/>
+        else if(this.props.elType === 'image'){
+            return <ParamsFormImage
+                coordinates={this.props.coordinates}
+                pageId={this.props.pageId}
+                elId={this.props.elId}
+            />
         }
     }
 }

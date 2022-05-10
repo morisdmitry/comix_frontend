@@ -1,66 +1,150 @@
-import { ALLOW_SAVING, DISALLOW_SAVING, 
-    SAVE_COORDINATES, SAVE_COORDINATE_AXIS_X, SAVE_COORDINATE_AXIS_Y,
-    ADD_NEW_UNIT } from "./types"
+import { SAVE_COORDINATE_AXIS_X, SAVE_COORDINATE_AXIS_Y,
+    ADD_NEW_PAGE, CHANGE_ELEMENT_TYPE , CHANGE_Z_INDEX, ADD_ELEMENT, DELETE_ELEMENT
+} from "./types"
+
+
+import { centerAxisX, centerAxisY, fullHeightPage } from '../config/config'
+
+
+
 
 const initialState = {
-    SAVE_TO_STORE: true,
-    coordinates: {
-        axis_x: 400,
-        axis_y: 450,
-
-    },
-    unit1: {
-        coordinates: {
-            axis_x: 400,
-            axis_y: 450,
-
-        }
-    },
-    utils: {
-        counter: 2,
-    }
+    commonZIndex: 1,
+    comixPages: [],
 
 }
 
 export const createComixReducer = (state= initialState, action) => {
     switch(action.type) {
-        case ALLOW_SAVING:
-            return {
-                ...state, 
-                SAVE_TO_STORE: true
-            }
-        case DISALLOW_SAVING:
-            return {
-                ...state, 
-                SAVE_TO_STORE: false
-            }
-        case SAVE_COORDINATES:
-            return {
-                ...state, 
-                coordinates: action.value
-            }
         case SAVE_COORDINATE_AXIS_X:
-            return {
-                ...state, coordinates: {...state.coordinates, axis_x: action.value}
-            }
-        case SAVE_COORDINATE_AXIS_Y:
-            return {
-                ...state, coordinates: {...state.coordinates, axis_y: action.value}
-            }
-        case ADD_NEW_UNIT:
-            let key = `newUnit${state.utils.counter}`
-            state[key] = {
-                coordinates: {
-                    axis_x: 300,
-                    axis_y: 350,
-            
+            const resAxisX = state.comixPages.map((page)=>{
+                if(page.pageId === action.pageId){
+                    const element = page.pageElements.map((el)=>{
+                        if(el.id=== action.elId){
+                            return{...el, 
+                                coordinates: {...el.coordinates, 
+                                    axis_x: action.value}
+                                }
+                        }
+                        return el
+                    })
+                    return {...page, pageElements: element}
                 }
-            }
-            // state.utils.counter += 1
+                return page
+            })
+
             return {
-                ...state, utils: {...state.utils, counter: state.utils.counter + 1}
+                ...state, comixPages: resAxisX
             }
 
+
+
+        case SAVE_COORDINATE_AXIS_Y:
+
+            const resAxisY= state.comixPages.map((page)=>{
+                if(page.pageId === action.pageId){
+                    const element = page.pageElements.map((el)=>{
+                        if(el.id=== action.elId){
+                            return{...el, 
+                                coordinates: {...el.coordinates, 
+                                    axis_y: action.value}
+                                }
+                        }
+                        return el
+                    })
+                    return {...page, pageElements: element}
+                }
+                return page
+            })
+
+            return {
+                ...state, comixPages: resAxisY
+            }
+
+
+        case CHANGE_ELEMENT_TYPE:
+
+            const res = state.comixPages.map((page)=>{
+                if(page.pageId === action.pageId){
+                    const element = page.pageElements.map((el)=>{
+                        if(el.id=== action.elId){
+                            return{...el, elType: action.value}
+                        }
+                        return el
+                    })
+                    return {...page, pageElements: element}
+                }
+                return page
+            })
+
+            return {
+                ...state, comixPages: res
+            }
+
+        case CHANGE_Z_INDEX:
+            return {
+                ...state, commonZIndex: action.value +1
+            }
+
+        case ADD_ELEMENT:
+
+            const newArr = {
+                id: action.newElid,
+                elType: "image",
+                coordinates: {
+                    axis_x: centerAxisX,
+                    axis_y: centerAxisY,
+            
+                },
+            }
+
+            const addElement = state.comixPages.map((page)=>{
+                if(page.pageId === action.pageId){
+                    return {...page, pageElements: [...page.pageElements, newArr]}
+                }
+                return page
+            })
+            return {
+                ...state, comixPages: addElement
+                }
+        
+        case DELETE_ELEMENT:
+
+            const delElement = state.comixPages.map((page)=>{
+                if(page.pageId === action.pageId){
+                    return {...page, pageElements: page.pageElements.filter(item => item.id !== action.elId)}
+                }
+                return page
+            })
+            
+            return {
+                ...state, comixPages: delElement
+                }
+            
+            
+        case ADD_NEW_PAGE:
+            let lastId = 1
+            if(state.comixPages.length >= 1){
+                lastId = state.comixPages[state.comixPages.length - 1].pageId + 1
+            }
+            
+            let pageTop = 0
+
+            console.log('length >>> ', state.comixPages.length)
+            if(state.comixPages.length >= 1){
+                pageTop = state.comixPages.length * fullHeightPage
+            }
+            console.log('pageTop', pageTop)
+            const newPage = {
+                pageId: lastId,
+                top_test: pageTop,
+                pageElements: [],
+            }
+            
+            return {
+                ...state, comixPages: [...state.comixPages, newPage]
+                }
+            
         default: 
             return state
     }

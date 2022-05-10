@@ -9,9 +9,7 @@ class ImgWindow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            contact: 'off',
-            left: 300,
-            top: 400,
+            contact: 'off'
           };
       }
       

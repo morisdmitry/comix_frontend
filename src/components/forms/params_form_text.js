@@ -1,7 +1,6 @@
 import React from "react";
 
 import { connect } from 'react-redux';
-import { saveCoordinates } from '../../redux/actions'
 
 class ParamsFormText extends React.Component {
 
@@ -19,7 +18,7 @@ class ParamsFormText extends React.Component {
 
     render() {
        return(
-           <div>
+           <div className="params-form">
                 <div>
                     <p>params</p>
                     <p><label>
@@ -50,19 +49,13 @@ class ParamsFormText extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        saveToStore: state.createComixReducer.SAVE_TO_STORE,
         coordinates: state.createComixReducer.coordinates,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return{
-        onSaveCoordinates: (val) => dispatch(saveCoordinates(val)),
-        
-        onChangeSave: ()=>{
-            const action = {type: 'DISALLOW_SAVING'}
-            dispatch(action)
-        }
+
     }
 }
 

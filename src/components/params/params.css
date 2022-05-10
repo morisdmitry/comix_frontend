@@ -1,0 +1,13 @@
+.params-form{
+    
+}
+
+.params-form p{
+    float: left;
+    margin: 0 15px;
+}
+
+
+.params-form p input{
+    width: 30px;
+}

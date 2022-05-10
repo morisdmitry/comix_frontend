@@ -2,38 +2,35 @@ import React from "react";
 import './elementSettings.css'
 import Params from "../params/params";
 
+import { changeElementType } from '../../redux/actions'
+
 import { connect } from 'react-redux';
 
 class ElementSettings extends React.Component {
     
     constructor(props) {
         super(props);
-        this.state = {
-            val: 'text',
-          };
       }
 
 
-    handleChange() {
-
-        if(this.state.val === 'image'){
-            this.setState({val: 'text'})
-        }
-        else if(this.state.val === 'text'){
-            this.setState({val: 'image'})
-        }
+    handleChange(e) {
+        this.props.onChangeElementType(this.props.pageId, this.props.elId, e.target.value)
         }
     
     render() {
         
         return (
-            <div className="work-settings">
-                <select onChange={()=>{this.handleChange()}}>
-                    <option>text</option>
-                    <option>image</option>
+            
+            <div className="work-settings" key={this.props.elId}>
+                <select value={this.props.elType} onChange={(e)=>{this.handleChange(e)}}>
+                    <option value="text">text</option>
+                    <option value="image">image</option>
                 </select>
                 <Params
-                    paramsType = {this.state.val}
+                    elType = {this.props.elType}
+                    coordinates={this.props.coordinates}
+                    pageId={this.props.pageId}
+                    elId={this.props.elId}
                 />
             </div>
         )
@@ -44,9 +41,14 @@ class ElementSettings extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        save: state.createComixReducer.SAVE_TO_STORE,
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        onChangeElementType: (pageId, elId, val) =>  dispatch(changeElementType(pageId, elId, val))
     }
 }
 
 
-export default connect(mapStateToProps)(ElementSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(ElementSettings);
