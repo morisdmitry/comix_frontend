@@ -1,7 +1,7 @@
 import { 
     SAVE_COORDINATE_AXIS_X, SAVE_COORDINATE_AXIS_Y, 
-    ADD_NEW_PAGE, CHANGE_ELEMENT_TYPE , CHANGE_Z_INDEX, ADD_ELEMENT, DELETE_ELEMENT,
-    SAVE_BORDERS
+    ADD_NEW_PAGE, DELETE_PAGE, CHANGE_ELEMENT_TYPE , ADD_ELEMENT, DELETE_ELEMENT,
+    SAVE_BORDERS, CHANGE_Z_INDEX, 
 } from "./types";
 
 
@@ -28,6 +28,13 @@ export function addNewPage(val){
     return {
         type: ADD_NEW_PAGE, 
         value: val
+}
+}
+
+export function deletePage(pageId){
+    return {
+        type: DELETE_PAGE, 
+        pageId: pageId
 }
 }
 

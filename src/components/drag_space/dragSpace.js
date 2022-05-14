@@ -27,7 +27,7 @@ class DragSpace extends React.Component {
                 {this.props.pageElements.map((el)=>{
                             return(
                                 <DragElement
-                                    top_test = {this.props.top_test}
+                                    pageTop = {this.props.pageTop}
                                     coordinates={el.coordinates}
                                     elId={el.id}
                                     pageId={this.props.pageId}

@@ -3,7 +3,7 @@ import './comixPage.css'
 import ElementSettings from '../element_settings/elementSettings'
 import DragSpace from '../drag_space/dragSpace'
 
-import { addElement } from '../../redux/actions'
+import { addElement, deletePage } from '../../redux/actions'
 import { connect } from 'react-redux';
 import { marginBetweenPages } from '../../config/config'
 import { axisYWindow } from '../../config/config'
@@ -14,7 +14,7 @@ class ComixPage extends React.Component {
         super(props);
       }
 
-      handleClickElement(e){
+      handleAddElement(e){
         if(this.props.pageElements.length >= 1){
             const lastId = this.props.pageElements[this.props.pageElements.length -1].id
             this.props.onAddElement(this.props.pageId, lastId+1)
@@ -22,6 +22,9 @@ class ComixPage extends React.Component {
         else{
             this.props.onAddElement(this.props.pageId, 1)
         }
+    }
+    handleDelPage(e){
+        this.props.onDeletePage(this.props.pageId)
     }
     
     render() {
@@ -37,7 +40,7 @@ class ComixPage extends React.Component {
                     pageId={this.props.pageId}
                     pageElements={this.props.pageElements}
                     borders={this.props.borders}
-                    top_test={this.props.top_test}
+                    pageTop={this.props.pageTop}
                 />
                 </div>
                 
@@ -58,10 +61,12 @@ class ComixPage extends React.Component {
                             )
                         })}
                     <div>
-                        <button onClick={(e)=>{this.handleClickElement(e)}}>add new element</button>
+                        <button onClick={(e)=>{this.handleAddElement(e)}}>add new element</button>
                     </div>
                 </div>
-                
+                <div className="del-page-button">
+                    <button onClick={(e)=>{this.handleDelPage(e)}}>del page</button>
+                </div>
 
 
             </div>
@@ -79,7 +84,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return{
-        onAddElement: (pageId, newElid) =>  dispatch(addElement(pageId, newElid))
+        onAddElement: (pageId, newElid) =>  dispatch(addElement(pageId, newElid)),
+        onDeletePage: (pageId) =>  dispatch(deletePage(pageId))
     }
 }
 

@@ -46,18 +46,18 @@ class DragElement extends React.Component {
     
       onMouseMove(event){
         if (this.state.contact === 'on'){
-            this.moveAtStore(event.pageX, event.pageY-this.props.top_test);
+            this.moveAtStore(event.pageX, event.pageY-this.props.pageTop);
         }
       };
     
       onMouseDown(event){
         this.props.onSaveZIndex(1)
         if (this.state.contact === 'on'){
-          this.mouseDownStore(event.pageX, event.pageY-this.props.top_test);
+          this.mouseDownStore(event.pageX, event.pageY-this.props.pageTop);
           this.setState({contact: 'off'})
         }
         if (this.state.contact === 'off'){
-          this.mouseDownStore(event.pageX, event.pageY-this.props.top_test);
+          this.mouseDownStore(event.pageX, event.pageY-this.props.pageTop);
           this.setState({contact: 'on'})
         }
     

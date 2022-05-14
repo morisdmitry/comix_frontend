@@ -10,3 +10,9 @@
     
     overflow-y: scroll;
 }
+
+.del-page-button{
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}

@@ -1,17 +1,13 @@
 import { SAVE_COORDINATE_AXIS_X, SAVE_COORDINATE_AXIS_Y,
-    ADD_NEW_PAGE, CHANGE_ELEMENT_TYPE , CHANGE_Z_INDEX, ADD_ELEMENT, DELETE_ELEMENT
+    ADD_NEW_PAGE, DELETE_PAGE, CHANGE_ELEMENT_TYPE , CHANGE_Z_INDEX, ADD_ELEMENT, DELETE_ELEMENT
 } from "./types"
-
-
 import { centerAxisX, centerAxisY, fullHeightPage } from '../config/config'
-
-
 
 
 const initialState = {
     commonZIndex: 1,
+    pageQueue: [],
     comixPages: [],
-
 }
 
 export const createComixReducer = (state= initialState, action) => {
@@ -36,7 +32,6 @@ export const createComixReducer = (state= initialState, action) => {
             return {
                 ...state, comixPages: resAxisX
             }
-
 
 
         case SAVE_COORDINATE_AXIS_Y:
@@ -81,10 +76,12 @@ export const createComixReducer = (state= initialState, action) => {
                 ...state, comixPages: res
             }
 
+
         case CHANGE_Z_INDEX:
             return {
                 ...state, commonZIndex: action.value +1
             }
+
 
         case ADD_ELEMENT:
 
@@ -108,6 +105,7 @@ export const createComixReducer = (state= initialState, action) => {
                 ...state, comixPages: addElement
                 }
         
+
         case DELETE_ELEMENT:
 
             const delElement = state.comixPages.map((page)=>{
@@ -123,26 +121,23 @@ export const createComixReducer = (state= initialState, action) => {
             
             
         case ADD_NEW_PAGE:
-            let lastId = 1
+            let newid = 1
             if(state.comixPages.length >= 1){
-                lastId = state.comixPages[state.comixPages.length - 1].pageId + 1
+                newid = state.comixPages[state.comixPages.length - 1].pageId + 1
             }
-            
-            let pageTop = 0
-
-            console.log('length >>> ', state.comixPages.length)
-            if(state.comixPages.length >= 1){
-                pageTop = state.comixPages.length * fullHeightPage
-            }
-            console.log('pageTop', pageTop)
             const newPage = {
-                pageId: lastId,
-                top_test: pageTop,
+                pageId: newid,
                 pageElements: [],
             }
             
             return {
                 ...state, comixPages: [...state.comixPages, newPage]
+                }
+            
+
+        case DELETE_PAGE:
+            return {
+                ...state, comixPages: state.comixPages.filter(page => page.pageId !== action.pageId)
                 }
             
         default: 
