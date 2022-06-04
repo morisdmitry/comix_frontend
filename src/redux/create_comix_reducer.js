@@ -1,7 +1,7 @@
 import { SAVE_COORDINATE_AXIS_X, SAVE_COORDINATE_AXIS_Y,
-    ADD_NEW_PAGE, DELETE_PAGE, CHANGE_ELEMENT_TYPE , CHANGE_Z_INDEX, ADD_ELEMENT, DELETE_ELEMENT
+    ADD_NEW_PAGE, DELETE_PAGE, CHANGE_ELEMENT_TYPE , CHANGE_Z_INDEX, ADD_ELEMENT, DELETE_ELEMENT, SAVE_COMIX_PAGE
 } from "./types"
-import { centerAxisX, centerAxisY, fullHeightPage } from '../config/config'
+import { centerAxisX, centerAxisY } from '../config/config'
 
 
 const initialState = {
@@ -14,8 +14,8 @@ export const createComixReducer = (state= initialState, action) => {
     switch(action.type) {
         case SAVE_COORDINATE_AXIS_X:
             const resAxisX = state.comixPages.map((page)=>{
-                if(page.pageId === action.pageId){
-                    const element = page.pageElements.map((el)=>{
+                if(page.id === action.pageId){
+                    const element = page.elements.map((el)=>{
                         if(el.id=== action.elId){
                             return{...el, 
                                 coordinates: {...el.coordinates, 
@@ -24,7 +24,7 @@ export const createComixReducer = (state= initialState, action) => {
                         }
                         return el
                     })
-                    return {...page, pageElements: element}
+                    return {...page, elements: element}
                 }
                 return page
             })
@@ -37,8 +37,8 @@ export const createComixReducer = (state= initialState, action) => {
         case SAVE_COORDINATE_AXIS_Y:
 
             const resAxisY= state.comixPages.map((page)=>{
-                if(page.pageId === action.pageId){
-                    const element = page.pageElements.map((el)=>{
+                if(page.id === action.pageId){
+                    const element = page.elements.map((el)=>{
                         if(el.id=== action.elId){
                             return{...el, 
                                 coordinates: {...el.coordinates, 
@@ -47,7 +47,7 @@ export const createComixReducer = (state= initialState, action) => {
                         }
                         return el
                     })
-                    return {...page, pageElements: element}
+                    return {...page, elements: element}
                 }
                 return page
             })
@@ -60,14 +60,14 @@ export const createComixReducer = (state= initialState, action) => {
         case CHANGE_ELEMENT_TYPE:
 
             const res = state.comixPages.map((page)=>{
-                if(page.pageId === action.pageId){
-                    const element = page.pageElements.map((el)=>{
+                if(page.id === action.pageId){
+                    const element = page.elements.map((el)=>{
                         if(el.id=== action.elId){
-                            return{...el, elType: action.value}
+                            return{...el, type: action.value}
                         }
                         return el
                     })
-                    return {...page, pageElements: element}
+                    return {...page, elements: element}
                 }
                 return page
             })
@@ -87,7 +87,7 @@ export const createComixReducer = (state= initialState, action) => {
 
             const newArr = {
                 id: action.newElid,
-                elType: "image",
+                type: "image",
                 coordinates: {
                     axis_x: centerAxisX,
                     axis_y: centerAxisY,
@@ -96,8 +96,8 @@ export const createComixReducer = (state= initialState, action) => {
             }
 
             const addElement = state.comixPages.map((page)=>{
-                if(page.pageId === action.pageId){
-                    return {...page, pageElements: [...page.pageElements, newArr]}
+                if(page.id === action.pageId){
+                    return {...page, elements: [...page.elements, newArr]}
                 }
                 return page
             })
@@ -109,8 +109,8 @@ export const createComixReducer = (state= initialState, action) => {
         case DELETE_ELEMENT:
 
             const delElement = state.comixPages.map((page)=>{
-                if(page.pageId === action.pageId){
-                    return {...page, pageElements: page.pageElements.filter(item => item.id !== action.elId)}
+                if(page.id === action.pageId){
+                    return {...page, elements: page.elements.filter(item => item.id !== action.elId)}
                 }
                 return page
             })
@@ -123,11 +123,11 @@ export const createComixReducer = (state= initialState, action) => {
         case ADD_NEW_PAGE:
             let newid = 1
             if(state.comixPages.length >= 1){
-                newid = state.comixPages[state.comixPages.length - 1].pageId + 1
+                newid = state.comixPages[state.comixPages.length - 1].id + 1
             }
             const newPage = {
-                pageId: newid,
-                pageElements: [],
+                id: newid,
+                elements: [],
             }
             
             return {
@@ -137,7 +137,12 @@ export const createComixReducer = (state= initialState, action) => {
 
         case DELETE_PAGE:
             return {
-                ...state, comixPages: state.comixPages.filter(page => page.pageId !== action.pageId)
+                ...state, comixPages: state.comixPages.filter(page => page.id !== action.pageId)
+                }
+
+        case SAVE_COMIX_PAGE:
+            return {
+                ...state, comixPages: [...action.comixPage]
                 }
             
         default: 

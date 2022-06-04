@@ -15,6 +15,7 @@ class ComixPage extends React.Component {
       }
 
       handleAddElement(e){
+          console.log('this.props.pageElements', this.props.pageElements)
         if(this.props.pageElements.length >= 1){
             const lastId = this.props.pageElements[this.props.pageElements.length -1].id
             this.props.onAddElement(this.props.pageId, lastId+1)
@@ -39,7 +40,6 @@ class ComixPage extends React.Component {
                 <DragSpace 
                     pageId={this.props.pageId}
                     pageElements={this.props.pageElements}
-                    borders={this.props.borders}
                     pageTop={this.props.pageTop}
                 />
                 </div>
@@ -51,11 +51,12 @@ class ComixPage extends React.Component {
                     }}
                 >
                     {this.props.pageElements.map((el)=>{
+                        console.log('el', el)
                             return(
                                 <ElementSettings
                                     pageId={this.props.pageId}
                                     elId={el.id}
-                                    elType={el.elType}
+                                    elType={el.type}
                                     coordinates={el.coordinates}
                                 />
                             )
