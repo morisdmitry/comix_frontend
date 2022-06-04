@@ -1,9 +1,6 @@
 import React from "react";
 import './dragSpace.css'
 import DragElement from '../drag_element/dragElement'
-
-import { saveBorders } from '../../redux/actions'
-
 import { connect } from 'react-redux';
 import { axisXWindow, axisYWindow } from '../../config/config'
 
@@ -51,7 +48,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return{
-        onSaveBorders: (pageId, borders) => dispatch(saveBorders(pageId, borders))
     }
 }
 

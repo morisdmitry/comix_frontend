@@ -1,9 +1,9 @@
 import React from "react";
 import ComixPage  from '../comix_page/comixPage';
-import Buttons  from '../buttons/buttons';
 import { connect } from 'react-redux';
 import { queueHandler } from '../../redux/utils'
-import { addNewPage } from '../../redux/actions'
+import { addNewPage, addComixPage } from '../../redux/actions'
+
 class CreateComixPage extends React.Component {
     constructor(props) {
         super(props);
@@ -13,17 +13,24 @@ class CreateComixPage extends React.Component {
         this.props.onAddNewPage()
     }
 
+    componentDidMount() {
+
+        this.props.onAddComixPage(7)
+    }
 
     render() {
+
+        console.log('this.props', this.props.viewState)
+
         return (
             <div>
                 {
                     this.props.comixPages.map((page, index)=>{
                         return(
                             <ComixPage 
-                                pageId={page.pageId}
-                                pageElements={page.pageElements}
-                                borders={page.borders}
+                                key={page.id}
+                                pageId={page.id}
+                                pageElements={page.elements}
                                 pageTop={queueHandler(index)}
                             ></ComixPage>
                         )
@@ -45,6 +52,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return{
         onAddNewPage: () => dispatch(addNewPage()),
+        onAddComixPage: (comixId) => dispatch(addComixPage(comixId)),
     }
 }
 

@@ -1,9 +1,33 @@
 import { 
     SAVE_COORDINATE_AXIS_X, SAVE_COORDINATE_AXIS_Y, 
     ADD_NEW_PAGE, DELETE_PAGE, CHANGE_ELEMENT_TYPE , ADD_ELEMENT, DELETE_ELEMENT,
-    SAVE_BORDERS, CHANGE_Z_INDEX, 
+    CHANGE_Z_INDEX, SAVE_COMIX_PAGE
 } from "./types";
+import axios from "axios";
+import {baseUrl} from '../config/config'
 
+
+
+export const addComixPage = (comix_id) => {
+  return (dispatch) => {
+    axios
+        .get(baseUrl + `comix_page/${comix_id}`)
+        .then(res => {
+            dispatch(saveComixPage(res.data));
+        })
+        .catch(err => {
+            console.log('err.message', err.message)
+        });
+  };
+};
+
+
+export function saveComixPage(comixPage){
+    return {
+        type: SAVE_COMIX_PAGE, 
+        comixPage: comixPage
+}
+}
 
 
 export function saveCoordinate_axis_x(pageId, elId, val){
@@ -67,13 +91,5 @@ export function deleteElement(pageId, elId){
         type: DELETE_ELEMENT,
         pageId: pageId,
         elId: elId,
-}
-}
-
-export function saveBorders(pageId, borders){
-    return {
-        type: SAVE_BORDERS,
-        pageId: pageId,
-        borders: borders,
 }
 }
