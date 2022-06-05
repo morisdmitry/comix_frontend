@@ -1,7 +1,7 @@
 import { 
     SAVE_COORDINATE_AXIS_X, SAVE_COORDINATE_AXIS_Y, 
     ADD_NEW_PAGE, DELETE_PAGE, CHANGE_ELEMENT_TYPE , ADD_ELEMENT, DELETE_ELEMENT,
-    CHANGE_Z_INDEX, SAVE_COMIX_PAGE
+    CHANGE_Z_INDEX, SAVE_COMIX_PAGE, ADD_COMIXES
 } from "./types";
 import axios from "axios";
 import {baseUrl} from '../config/config'
@@ -21,6 +21,28 @@ export const addComixPage = (comix_id) => {
   };
 };
 
+
+export const addComixList = () => {
+    return (dispatch) => {
+      axios
+          .get(baseUrl + `comix`)
+          .then(res => {
+              dispatch(addComixes(res.data));
+          })
+          .catch(err => {
+              console.log('err.message', err.message)
+          });
+    };
+  };
+
+
+
+export function addComixes(comixes){
+    return {
+        type: ADD_COMIXES, 
+        comixes: comixes
+}
+}
 
 export function saveComixPage(comixPage){
     return {

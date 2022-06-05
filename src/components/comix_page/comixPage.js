@@ -50,10 +50,10 @@ class ComixPage extends React.Component {
                         maxHeight: axisYWindow
                     }}
                 >
-                    {this.props.pageElements.map((el)=>{
-                        console.log('el', el)
+                    {this.props.pageElements.map((el, index)=>{
                             return(
                                 <ElementSettings
+                                    key={index}
                                     pageId={this.props.pageId}
                                     elId={el.id}
                                     elType={el.type}

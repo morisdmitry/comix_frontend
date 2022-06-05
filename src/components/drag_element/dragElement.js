@@ -12,7 +12,7 @@ class DragElement extends React.Component {
           };
       }
 
-      componentWillUpdate(nextProps, nextState) {
+      componentDidUpdate(nextProps, nextState) {
         if(nextProps.coordinates.axis_x <= 0){
             this.setState({contact: 'off'})
             this.props.onSaveCoordinate_axis_x(this.props.pageId, this.props.elId, nextProps.coordinates.axis_x + 1)

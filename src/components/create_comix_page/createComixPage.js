@@ -1,7 +1,7 @@
 import React from "react";
 import ComixPage  from '../comix_page/comixPage';
 import { connect } from 'react-redux';
-import { queueHandler } from '../../redux/utils'
+import { queueHandler } from '../../utils/utils'
 import { addNewPage, addComixPage } from '../../redux/actions'
 
 class CreateComixPage extends React.Component {
@@ -15,13 +15,10 @@ class CreateComixPage extends React.Component {
 
     componentDidMount() {
 
-        this.props.onAddComixPage(7)
+        this.props.onAddComixPage(this.props.comix_id_get)
     }
 
     render() {
-
-        console.log('this.props', this.props.viewState)
-
         return (
             <div>
                 {
@@ -32,7 +29,8 @@ class CreateComixPage extends React.Component {
                                 pageId={page.id}
                                 pageElements={page.elements}
                                 pageTop={queueHandler(index)}
-                            ></ComixPage>
+                            />
+
                         )
                     })
                 }
