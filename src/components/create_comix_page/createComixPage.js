@@ -29,7 +29,8 @@ class CreateComixPage extends React.Component {
                                 pageId={page.id}
                                 pageElements={page.elements}
                                 pageTop={queueHandler(index)}
-                            ></ComixPage>
+                            />
+
                         )
                     })
                 }

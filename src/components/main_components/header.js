@@ -10,7 +10,6 @@ class Header extends React.Component {
             <div className="container">
                 <div className="menu">
                     <Link to="/">home</Link>
-                    <Link to="/create_comix_page">create comix</Link>
                 </div>
             </div>
       </div>

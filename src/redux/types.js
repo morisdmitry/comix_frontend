@@ -8,3 +8,6 @@ export const CHANGE_Z_INDEX = 'CHANGE_Z_INDEX'
 export const ADD_ELEMENT = 'ADD_ELEMENT'
 export const DELETE_ELEMENT = 'DELETE_ELEMENT'
 export const SAVE_COMIX_PAGE = 'SAVE_COMIX_PAGE'
+
+
+export const ADD_COMIXES = 'ADD_COMIXES'
