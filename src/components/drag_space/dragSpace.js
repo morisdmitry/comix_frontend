@@ -21,9 +21,10 @@ class DragSpace extends React.Component {
                         height: `${axisYWindow}px`
                         }}
             >
-                {this.props.pageElements.map((el)=>{
+                {this.props.pageElements.map((el, index)=>{
                             return(
                                 <DragElement
+                                    key = {index}
                                     pageTop = {this.props.pageTop}
                                     coordinates={el.coordinates}
                                     elId={el.id}

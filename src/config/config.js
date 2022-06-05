@@ -1,5 +1,6 @@
 export const axisXWindow = 450
 export const axisYWindow = 600
+export const topHeight = 40
 export const marginBetweenPages = 50
 export const buttonToAddingPages = 32
 export const centerAxisX = axisXWindow/2
